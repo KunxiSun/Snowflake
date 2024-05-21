@@ -76,7 +76,10 @@ class Register:
 
         self.worker_id = self.__get_next_worker_id()
         if self.worker_id > -1:
-            Thread(target=extern_life, args=[self.worker_id]).start()
+            thread = Thread(target=extern_life, args=[self.worker_id])
+            thread.daemon = True    # 设置为守护线程，系统退出时自动退出
+            thread.start()
+
         return self.worker_id
 
     def __get_next_worker_id(self):
